@@ -1,10 +1,11 @@
 const router = require('express').Router();
-const Screams = require('../../models/Screams');
-
+const Scream = require('../../models/Screams');
+const User = require('../../models/User');
+const isAuth = require('../../Middleware/isAuth');
 // routes for www.site.com/api/screams
 
 // get all screams
-router.get('/', function(req, res) {
+router.get('/', isAuth, function(req, res) {
     // to get all the screams
     //check for authorisation later
     //find all the screams from the db and return the values
@@ -16,22 +17,30 @@ router.get('/', function(req, res) {
     });
 });
 
-router.post('/', async (req, res) => {
+//post a new scream
+router.post('/', isAuth, async (req, res) => {
     //post a new scream to the db
-    const newScream = {
-        userHandle: req.body.userHandle,
-        body: req.body.body
-    };
+    const body = req.body.body;
     try {
-        const Scream = await Screams.create(newScream);
+        const newScream = new Scream({
+            body: body
+        });
+        newScream.save();
+        User.findById(req.user.id, async function(err, foundUser) {
+            if (err) throw err;
+            else {
+                console.log(foundUser);
+                foundUser.screams.push(newScream);
+                const saved = await foundUser.save();
+                console.log(saved);
+            }
+        });
         return res
             .status(201)
-            .json(`message: created new Scream with id = ${Scream._id}`);
+            .json(`message: created new Scream with id = ${newScream._id}`);
     } catch (err) {
         console.log('error : ', err);
-        return res
-            .status(500)
-            .json('message: server error. Could not create Scream');
+        return res.status(500).json(err.message);
     }
 });
 
