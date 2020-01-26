@@ -5,8 +5,7 @@ const User = require('../../models/User');
 const { jwtSecret } = require('../../Config');
 
 //contains the login and signup routes
-
-router.post('/', async (req, res) => {
+router.post('/register', async (req, res) => {
     try {
         const user = new User({
             userHandle: req.body.userHandle,
@@ -37,5 +36,7 @@ router.post('/', async (req, res) => {
         return res.status(400).json({ error: err.message });
     }
 });
+
+// TODO: login route
 
 module.exports = router;

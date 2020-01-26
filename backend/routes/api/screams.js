@@ -11,7 +11,7 @@ router.get('/', isAuth, function(req, res) {
     //find all the screams from the db and return the values
     //assume the db to be called Screams
 
-    Screams.find({}, function(err, allScreams) {
+    Scream.find({}, function(err, allScreams) {
         //found all the screams
         return res.status(200).json(allScreams);
     });

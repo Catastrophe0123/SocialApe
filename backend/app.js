@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use('/api/screams', require('./routes/api/screams'));
 app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/user', require('./routes/api/user'));
 
 app.listen(PORT, () => {
     console.log('server started');
