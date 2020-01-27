@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 // USER SCHEMA
 // id
 // email
@@ -27,18 +26,11 @@ const mongoose = require('mongoose');
 // body
 // likes: [ array of users ]
 
-const ScreamSchema = new mongoose.Schema({
+const commentSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     body: String,
-    createdAt: { type: Date, default: Date.now },
-    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
-
-    // user reference
-    // body
-    // createdAt
-    // likes: [ array of users ]
-    // comments: [ array of comments ]
+    // likes for the  comment
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 });
 
-module.exports = mongoose.model('Scream', ScreamSchema);
+module.exports = mongoose.model('Comment', commentSchema);
