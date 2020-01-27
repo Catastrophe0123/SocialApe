@@ -39,4 +39,40 @@ router.post('/register', async (req, res) => {
 
 // TODO: login route
 
+router.post('/login', async (req, res) => {
+    //get the username and password
+
+    try {
+        const user = await User.findOne({ email: req.body.email });
+        if (!user) {
+            return res
+                .status(400)
+                .json({ message: 'invalid username or password' });
+        }
+        const isMatch = await bcrypt.compare(req.body.password, user.password);
+        if (isMatch) {
+            const payload = {
+                user: {
+                    id: user.id
+                }
+            };
+
+            jwt.sign(payload, jwtSecret, { expiresIn: 3600 }, function(
+                err,
+                token
+            ) {
+                if (err) throw err;
+                return res.status(200).json({ token });
+            });
+        } else {
+            return res
+                .status(400)
+                .json({ message: 'Invalid username or password' });
+        }
+    } catch (err) {
+        console.error(err);
+        return res.json(err);
+    }
+});
+
 module.exports = router;
