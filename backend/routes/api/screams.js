@@ -44,4 +44,10 @@ router.post('/', isAuth, async (req, res) => {
     }
 });
 
+// /screams/:id - get a scream with scream id
+router.get('/:id', async (req, res) => {
+    const scream = await Scream.findById(req.params.id).execPopulate();
+    return res.status(200).json({ scream });
+});
+
 module.exports = router;
