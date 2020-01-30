@@ -31,15 +31,15 @@ router.post('/', isAuth, async (req, res) => {
             body: body
         });
         newScream.save();
+        console.log('user : ', req.user);
         User.findById(req.user.id, async function(err, foundUser) {
             if (err) throw err;
             else {
-                console.log(foundUser);
                 foundUser.screams.push(newScream);
                 const saved = await foundUser.save();
-                console.log(saved);
             }
         });
+
         return res
             .status(201)
             .json(`message: created new Scream with id = ${newScream._id}`);
@@ -102,6 +102,64 @@ router.post('/:screamId/comment', isAuth, async (req, res) => {
     } catch (err) {
         console.err(err);
         return res.status(500).json({ message: 'server error' });
+    }
+});
+
+router.post('/:screamId/like', isAuth, async (req, res) => {
+    // we have the user
+    // we have the scream
+
+    try {
+        const scream = await Scream.findById(req.params.screamId);
+        if (!scream) {
+            return res.status(404).json({ message: 'scream not found' });
+        }
+        let flag = 0;
+        req.user.screamLikes.forEach(id => {
+            if (id == scream.id) {
+                flag = 1;
+            }
+        });
+        if (flag === 1) {
+            return res.status(401).json({ message: 'cannot like twice' });
+        } else {
+            scream.likes.push(req.user);
+
+            await scream.save();
+
+            req.user.screamLikes.push(scream.id);
+
+            const user = await User.findByIdAndUpdate(req.user.id, req.user);
+            return res.status(200).json({ message: 'liked successfully' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'server error', err });
+    }
+});
+
+router.post('/:screamId/unlike', isAuth, async (req, res) => {
+    try {
+        //we have the scream id
+        // we have the user
+
+        const scream = await Scream.findById(req.params.screamId);
+        if (!scream) {
+            return res.status(404).json({ message: 'scream not found' });
+        }
+        scream.likes.splice(scream.likes.indexOf(req.user.id), 1); // removed from scream
+        await scream.save();
+
+        req.user.screamLikes.splice(
+            req.user.screamLikes.indexOf(req.user.id),
+            1
+        ); // removed from user
+        const user = await User.findByIdAndUpdate(req.user.id, req.user);
+
+        return res.status(200).json({ message: 'unliked successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'server error', err });
     }
 });
 

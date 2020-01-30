@@ -13,6 +13,7 @@ module.exports = async (req, res, next) => {
         const decoded = jwt.verify(token, jwtSecret);
         const user = await User.findById(decoded.user.id);
         req.user = user;
+        console.log('user here : ', req.user);
         next();
     } catch (err) {
         console.error(err);

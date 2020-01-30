@@ -34,12 +34,12 @@ const mongoose = require('mongoose');
 // reference to the scream or comment
 
 const commentSchema = new mongoose.Schema({
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: true },
     body: String,
     scream: { type: mongoose.Schema.Types.ObjectId, ref: 'Scream' },
     createdAt: { type: Date, default: Date.now },
     // likes for the  comment
-    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: true }]
 });
 
 module.exports = mongoose.model('Comment', commentSchema);

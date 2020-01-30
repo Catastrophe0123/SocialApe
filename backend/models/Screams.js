@@ -29,10 +29,18 @@ const mongoose = require('mongoose');
 // likes: [ array of users ]
 
 const ScreamSchema = new mongoose.Schema({
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     body: String,
     createdAt: { type: Date, default: Date.now },
-    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    likes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
 
     // user reference
