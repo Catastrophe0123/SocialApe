@@ -9,7 +9,17 @@ const isAuth = require('../../Middleware/isAuth');
 //get the user data
 router.get('/', isAuth, async (req, res) => {
     try {
-        const user = await User.findById(req.user.id).select('-password');
+        // const user = await User.findById(req.user.id)
+        //     .populate('comments screams')
+        //     .execPopulate()
+        //     .select('-password');
+
+        const user = await (
+            await User.findById(req.user.id)
+                .select('-password')
+                .populate('comments screams', 'body')
+        ).execPopulate();
+        console.log(user);
         res.status(200).json(user);
     } catch (err) {
         console.error(err);

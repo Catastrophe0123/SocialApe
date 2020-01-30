@@ -23,6 +23,7 @@ const mongoose = require('mongoose');
 // comments: [ array of comments ]
 
 // COMMENTS SCHEMA
+// createdAt
 // user: reference to the user
 // body
 // likes: [ array of users ]
