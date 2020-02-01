@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Comment = require('./Comment');
-const Like = require('./Like');
 const Scream = require('./Screams');
 
 // USER SCHEMA

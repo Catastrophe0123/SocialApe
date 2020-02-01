@@ -103,7 +103,7 @@ router.post('/:screamId/comment', isAuth, async (req, res) => {
             comment
         });
     } catch (err) {
-        console.err(err);
+        console.error(err);
         return res.status(500).json({ message: 'server error' });
     }
 });
