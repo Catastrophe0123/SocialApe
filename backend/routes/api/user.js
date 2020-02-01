@@ -2,6 +2,7 @@ const router = require('express').Router();
 const Scream = require('../../models/Screams');
 const User = require('../../models/User');
 const isAuth = require('../../Middleware/isAuth');
+const Comment = require('../../models/Comment');
 
 //routes for /api/user/
 //most all routes are protected
@@ -14,13 +15,11 @@ router.get('/', isAuth, async (req, res) => {
         //     .execPopulate()
         //     .select('-password');
 
-        const user = await (
-            await User.findById(req.user.id)
-                .select('-password')
-                .populate('comments screams', 'body')
-        ).execPopulate();
-        console.log(user);
-        res.status(200).json(user);
+        const user = await User.findById(req.user.id).select('-password');
+        const comments = await Comment.find({ user: user._id });
+        const screams = await Scream.find({ user: user._id });
+        console.log(screams);
+        res.status(200).json({ user, screams, comments });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'server error' });
@@ -41,18 +40,11 @@ router.post('/', isAuth, async (req, res) => {
     User.findByIdAndUpdate(req.user.id, req.body, function(err, result) {
         if (err) {
             return res.status(500).json({ message: 'server error' });
-        }
-        //  else {
-        //     return res.status(200).json(result);
-        // }
-    });
-    User.findById(req.user.id, function(err, result) {
-        if (err) {
-            return res.status(500).json({ message: 'server error' });
         } else {
+            result.password = '';
             return res.status(200).json(result);
         }
-    }).select('-password');
+    });
 });
 
 module.exports = router;

@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Comment = require('./Comment');
+const User = require('./User');
 
 // USER SCHEMA
 // id
@@ -23,6 +25,7 @@ const mongoose = require('mongoose');
 // comments: [ array of comments ]
 
 // COMMENTS SCHEMA
+// scream: reference to the scream
 // createdAt
 // user: reference to the user
 // body
@@ -48,6 +51,11 @@ const ScreamSchema = new mongoose.Schema({
     // createdAt
     // likes: [ array of users ]
     // comments: [ array of comments ]
+});
+
+ScreamSchema.post('remove', function(doc) {
+    // after deleting a scream document
+    Comment.remove({ scream: doc.id });
 });
 
 module.exports = mongoose.model('Scream', ScreamSchema);
