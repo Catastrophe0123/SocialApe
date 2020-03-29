@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const expressSanitizer = require('express-sanitizer');
 const connectDB = require('./dbConnect');
 
 app.use(express.json());

@@ -34,7 +34,7 @@ router.get('/', function(req, res) {
 		//found all the screams
 		return res.status(200).json(allScreams);
 	})
-		.populate('comments')
+		.populate('comments user')
 		.exec();
 });
 

@@ -1,0 +1,7 @@
+export const FETCH_SCREAMS = 'FETCH_SCREAMS';
+export const SET_SCREAMS = 'SET_SCREAMS';
+export const FETCH_SCREAMS_FAILED = 'FETCH_SCREAMS_FAILED';
+
+export const AUTH_LOADING = 'AUTH_LOADING';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';

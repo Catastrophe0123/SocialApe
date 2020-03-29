@@ -32,30 +32,30 @@ const User = require('./User');
 // likes: [ array of users ]
 
 const ScreamSchema = new mongoose.Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    },
-    body: String,
-    createdAt: { type: Date, default: Date.now },
-    likes: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        }
-    ],
-    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
+	user: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User'
+	},
+	body: String,
+	createdAt: { type: Date, default: Date.now },
+	likes: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User'
+		}
+	],
+	comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
 
-    // user reference
-    // body
-    // createdAt
-    // likes: [ array of users ]
-    // comments: [ array of comments ]
+	// user reference
+	// body
+	// createdAt
+	// likes: [ array of users ]
+	// comments: [ array of comments ]
 });
 
 ScreamSchema.post('remove', function(doc) {
-    // after deleting a scream document
-    Comment.remove({ scream: doc.id });
+	// after deleting a scream document
+	Comment.remove({ scream: doc.id });
 });
 
 module.exports = mongoose.model('Scream', ScreamSchema);
