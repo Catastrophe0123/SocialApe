@@ -5,3 +5,4 @@ export const FETCH_SCREAMS_FAILED = 'FETCH_SCREAMS_FAILED';
 export const AUTH_LOADING = 'AUTH_LOADING';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const SET_USER = 'SET_USER';

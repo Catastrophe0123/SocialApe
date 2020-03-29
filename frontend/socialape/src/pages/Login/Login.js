@@ -10,7 +10,6 @@ const Input = ({
 	form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
 	...props
 }) => {
-	console.log(props);
 	return (
 		<div className={classes.inputs}>
 			{touched.email && errors.email && <p>{errors.email}</p>}
@@ -83,7 +82,8 @@ const FormikLogin = withFormik({
 			.required()
 	}),
 	handleSubmit(values, { props }) {
-		props.asyncLogin(values);
+		console.log(props);
+		props.asyncLogin(values, props.history);
 	}
 })(Login);
 

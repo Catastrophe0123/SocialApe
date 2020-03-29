@@ -5,11 +5,15 @@ import App from './App';
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+
 import screamReducer from './redux/reducers/screams';
 import authReducer from './redux/reducers/auth';
+import userReducer from './redux/reducers/user';
+
 const rootReducer = combineReducers({
 	screams: screamReducer,
-	auth: authReducer
+	auth: authReducer,
+	user: userReducer
 });
 
 let initialState = {};
